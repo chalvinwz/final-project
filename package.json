@@ -1,16 +1,29 @@
 {
-  "name": "handsign-translator-app",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "13.4.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  }
+	"name": "handsign-translator-app",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@chakra-ui/icons": "^2.0.19",
+		"@chakra-ui/next-js": "^2.1.4",
+		"@chakra-ui/react": "^2.7.0",
+		"@emotion/react": "^11.11.0",
+		"@emotion/styled": "^11.11.0",
+		"@tensorflow-models/handpose": "^0.0.7",
+		"@tensorflow/tfjs": "^4.7.0",
+		"@tensorflow/tfjs-backend-webgl": "^3.21.0",
+		"@tensorflow/tfjs-converter": "^3.21.0",
+		"@tensorflow/tfjs-core": "^3.21.0",
+		"fingerpose": "^0.1.0",
+		"framer-motion": "^10.12.16",
+		"next": "13.4.4",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"react-webcam": "^7.1.0"
+	}
 }
