@@ -19,12 +19,9 @@
 
 .camera-button {
 	width: 400px;
-	border-radius: 30px;
-	border: none;
-	padding: 15px 20px;
 	text-align: center;
 	position: fixed;
 	bottom: 30px;
-	left: calc(50% - 150px);
+	left: calc(50% - 80px);
 	z-index: 10;
 }

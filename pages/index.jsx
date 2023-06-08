@@ -14,7 +14,7 @@ import ColorModeToggle from '@/components/ColorModeToggle'
 export default function Home() {
 	const webcamRef = useRef(null)
 	const canvasRef = useRef(null)
-	const [text, setText] = useState('')
+	const [text, setText] = useState([{}])
 	const [camState, setCamState] = useState('on')
 
 	async function runHandpose() {
@@ -84,7 +84,10 @@ export default function Home() {
 					Handsigns.zSign,
 				])
 
-				const estimatedGestures = await GE.estimate(hand[0].landmarks, 8.5)
+				const estimatedGestures = await GE.estimate(
+					hand[0].landmarks,
+					8.666666666666668
+				)
 
 				if (
 					estimatedGestures.gestures !== null &&
@@ -94,7 +97,13 @@ export default function Home() {
 
 					const maxConfidence = confidence.indexOf(Math.max(...confidence))
 
-					setText(estimatedGestures.gestures[maxConfidence].name)
+					setText((prevText) => [
+						...prevText,
+						{
+							confidenceLevel: estimatedGestures.gestures[maxConfidence].score,
+							text: estimatedGestures.gestures[maxConfidence].name,
+						},
+					])
 				}
 			}
 
@@ -118,12 +127,19 @@ export default function Home() {
 				{camState === 'on' ? (
 					<>
 						<Webcam className='webcam' ref={webcamRef} />
-						<Heading as='h1' size='4xl' zIndex={9} color='white'>
-							{text}
-						</Heading>
 					</>
 				) : (
 					<Box></Box>
+				)}
+
+				{text !== '' ? (
+					<Heading as='h1' size='4xl' zIndex={9} color='white'>
+						{text.length}
+					</Heading>
+				) : (
+					<Heading as='h1' size='4xl' zIndex={9} color='white'>
+						Do shit
+					</Heading>
 				)}
 
 				<canvas className='canvas' ref={canvasRef} />
