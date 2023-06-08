@@ -14,7 +14,8 @@ import ColorModeToggle from '@/components/ColorModeToggle'
 export default function Home() {
 	const webcamRef = useRef(null)
 	const canvasRef = useRef(null)
-	const [text, setText] = useState([{}])
+	const [text, setText] = useState('')
+	const [textArray, setTextArray] = useState([])
 	const [camState, setCamState] = useState('on')
 
 	async function runHandpose() {
@@ -29,6 +30,23 @@ export default function Home() {
 	useEffect(() => {
 		runHandpose()
 	}, [])
+
+	if (textArray.length === 10) {
+		function getFrequentText(arr) {
+			return arr
+				.sort(
+					(a, b) =>
+						arr.filter((v) => v === a).length -
+						arr.filter((v) => v === b).length
+				)
+				.pop()
+		}
+
+		const frequentText = getFrequentText(textArray)
+
+		setTextArray([])
+		setText((text) => text + frequentText)
+	}
 
 	async function detect(net) {
 		// Check data is available
@@ -97,12 +115,9 @@ export default function Home() {
 
 					const maxConfidence = confidence.indexOf(Math.max(...confidence))
 
-					setText((prevText) => [
-						...prevText,
-						{
-							confidenceLevel: estimatedGestures.gestures[maxConfidence].score,
-							text: estimatedGestures.gestures[maxConfidence].name,
-						},
+					setTextArray((prevTextArray) => [
+						...prevTextArray,
+						estimatedGestures.gestures[maxConfidence].name,
 					])
 				}
 			}
@@ -132,10 +147,15 @@ export default function Home() {
 					<Box></Box>
 				)}
 
-				{text !== '' ? (
-					<Heading as='h1' size='4xl' zIndex={9} color='white'>
-						{text.length}
-					</Heading>
+				{textArray.length !== 0 ? (
+					<>
+						<Heading as='h1' size='4xl' zIndex={9} color='white'>
+							{textArray.length}
+						</Heading>
+						<Heading as='h1' size='4xl' zIndex={9} color='white'>
+							{text}
+						</Heading>
+					</>
 				) : (
 					<Heading as='h1' size='4xl' zIndex={9} color='white'>
 						Do shit
