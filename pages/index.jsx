@@ -6,7 +6,15 @@ import Webcam from 'react-webcam'
 import ColorModeToggle from '@/components/ColorModeToggle'
 import HandSignDictionary from '@/components/HandSignDictionary'
 
-import { Heading, Button, Stack, Container, Box } from '@chakra-ui/react'
+import {
+	Heading,
+	Button,
+	Stack,
+	Container,
+	Box,
+	Spinner,
+	AbsoluteCenter,
+} from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import TextToSpeech from '@/components/TextToSpeech'
 
@@ -36,12 +44,28 @@ export default function Home() {
 		setText('')
 	}
 
+	if (!modelIsLoaded) {
+		return (
+			<Box w='100vw' h='100vh'>
+				<AbsoluteCenter>
+					<Spinner
+						size='xl'
+						thickness='4px'
+						speed='0.65s'
+						emptyColor='gray.200'
+						color='blue.500'
+					/>
+				</AbsoluteCenter>
+			</Box>
+		)
+	}
+
 	return (
 		<>
 			<Head>
 				<title>Hand Sign Translation App</title>
 			</Head>
-			<Box bgColor='#000'>
+			<Box>
 				<Container centerContent maxW='xl' height='100vh' pt='0' pb='0'>
 					{camState === 'on' ? (
 						<Webcam className='webcam' ref={webcamRef} />
@@ -49,28 +73,26 @@ export default function Home() {
 						<Box></Box>
 					)}
 
-					{modelIsLoaded ? (
-						<Heading as='h1' size='xl' zIndex={10} color='white'>
+					{modelIsLoaded && (
+						<Heading as='h1' size='xl' zIndex={10}>
 							Stay until 10
 						</Heading>
-					) : (
-						''
 					)}
 
-					{textArray.length !== 0 ? (
+					{textArray.length !== 0 && (
 						<>
-							<Heading as='h1' size='2xl' zIndex={10} color='white'>
+							<Heading as='h1' size='2xl' zIndex={10}>
 								{textArray.length}
 							</Heading>
-							<Heading as='h1' size='2xl' zIndex={10} color='white'>
+							<Heading as='h1' size='2xl' zIndex={10}>
 								{text}
 							</Heading>
 						</>
-					) : (
-						''
 					)}
 
 					<canvas className='canvas' ref={canvasRef} />
+
+					<ColorModeToggle />
 
 					<Stack
 						zIndex={10}

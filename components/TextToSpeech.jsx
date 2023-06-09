@@ -9,7 +9,7 @@ const TextToSpeech = ({ text }) => {
 
 	return (
 		<Button colorScheme='blue' onClick={handleClick}>
-			Text 2 Speech
+			Text to Speech
 		</Button>
 	)
 }
