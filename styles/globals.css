@@ -16,12 +16,3 @@
 	filter: FlipH;
 	z-index: 9;
 }
-
-.camera-button {
-	width: 400px;
-	text-align: center;
-	position: fixed;
-	bottom: 30px;
-	left: calc(50% - 80px);
-	z-index: 10;
-}

@@ -5,22 +5,23 @@ import Webcam from 'react-webcam'
 import { drawHand } from '@/lib/handpose/draw-hand'
 import * as fp from 'fingerpose'
 import Handsigns from '@/lib/handpose/handsigns'
-import { Signimage, Signpass } from '@/assets/handimage'
 
 import { Heading, Button, Stack, Container, Box } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import ColorModeToggle from '@/components/ColorModeToggle'
+import HandSignImage from '@/components/HandSignImage'
 
 export default function Home() {
 	const webcamRef = useRef(null)
 	const canvasRef = useRef(null)
+	const [modelIsLoaded, setModelIsLoaded] = useState(false)
 	const [text, setText] = useState('')
 	const [textArray, setTextArray] = useState([])
 	const [camState, setCamState] = useState('on')
 
 	async function runHandpose() {
 		const net = await handpose.load()
-		console.log('Model Loaded')
+		setModelIsLoaded(true)
 
 		setInterval(() => {
 			detect(net)
@@ -136,40 +137,55 @@ export default function Home() {
 		}
 	}
 
+	function handleRemoveWord() {
+		setTextArray([])
+		setText('')
+	}
+
 	return (
-		<Box bgColor='#000'>
+		<Box>
 			<Container centerContent maxW='xl' height='100vh' pt='0' pb='0'>
 				{camState === 'on' ? (
-					<>
-						<Webcam className='webcam' ref={webcamRef} />
-					</>
+					<Webcam className='webcam' ref={webcamRef} />
 				) : (
 					<Box></Box>
 				)}
 
+				{modelIsLoaded ? (
+					<Heading as='h1' size='xl' zIndex={10} color='white'>
+						Stay until 10
+					</Heading>
+				) : (
+					''
+				)}
+
 				{textArray.length !== 0 ? (
 					<>
-						<Heading as='h1' size='4xl' zIndex={9} color='white'>
+						<Heading as='h1' size='2xl' zIndex={10} color='white'>
 							{textArray.length}
 						</Heading>
-						<Heading as='h1' size='4xl' zIndex={9} color='white'>
+						<Heading as='h1' size='2xl' zIndex={10} color='white'>
 							{text}
 						</Heading>
 					</>
 				) : (
-					<Heading as='h1' size='4xl' zIndex={9} color='white'>
-						Do shit
-					</Heading>
+					''
 				)}
 
 				<canvas className='canvas' ref={canvasRef} />
 
 				<Stack
-					className='camera-button'
+					zIndex={10}
+					pos='fixed'
+					bottom='30px'
 					spacing={4}
 					direction='row'
 					align='center'
 				>
+					<Button colorScheme='red' onClick={handleRemoveWord}>
+						Remove Word
+					</Button>
+
 					<Button
 						leftIcon={
 							camState === 'on' ? (
@@ -184,7 +200,7 @@ export default function Home() {
 						Camera
 					</Button>
 
-					<ColorModeToggle />
+					<HandSignImage />
 				</Stack>
 			</Container>
 		</Box>
