@@ -17,6 +17,7 @@ import {
 	Flex,
 	ButtonGroup,
 	Spacer,
+	Center,
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import TextToSpeech from '@/components/TextToSpeech'
@@ -69,78 +70,78 @@ export default function Home() {
 				<title>Hand Sign Translation App</title>
 			</Head>
 
-			<Box>
-				<Container centerContent height='100vh' pt='0' pb='0'>
-					{camIsOn === 'on' && (
-						<>
-							<Webcam className='webcam' ref={webcamRef} />
+			<Container centerContent h='100vh' w='100vw'>
+				{camIsOn === 'on' && (
+					<>
+						<Webcam className='webcam' ref={webcamRef} />
 
-							<canvas className='canvas' ref={canvasRef} />
-						</>
-					)}
+						<canvas className='canvas' ref={canvasRef} />
+					</>
+				)}
 
-					{modelIsLoaded && (
-						<Heading as='h1' size='xl' zIndex={10}>
-							Stay until 10
+				{modelIsLoaded && (
+					<Center zIndex={10} w='100vw'>
+						<Heading as='h1' size='xl'>
+							Keep your hand in screen until 10
 						</Heading>
-					)}
+					</Center>
+				)}
 
-					{textArray.length !== 0 ? (
-						<>
-							<Heading as='h1' size='2xl' zIndex={10}>
-								{textArray.length}
-							</Heading>
-							<Heading as='h1' size='2xl' zIndex={10}>
-								{text}
-							</Heading>
-						</>
-					) : (
+				{textArray.length !== 0 ? (
+					<>
 						<Heading as='h1' size='2xl' zIndex={10}>
-							0
+							{textArray.length}
 						</Heading>
-					)}
+						<Heading as='h1' size='2xl' zIndex={10}>
+							{text}
+						</Heading>
+					</>
+				) : (
+					<Heading as='h1' size='2xl' zIndex={10}>
+						0
+					</Heading>
+				)}
 
-					<Flex w='100vw' pos='fixed' top={4} zIndex={10}>
-						<Button
-							ml={4}
-							leftIcon={
-								camIsOn === 'on' ? (
-									<ViewIcon size={20} />
-								) : (
-									<ViewOffIcon size={20} />
-								)
-							}
-							onClick={handleWebcam}
-							colorScheme='pink'
-						>
-							Camera
-						</Button>
-
-						<Spacer />
-
-						<ButtonGroup mr={4} spacing={4}>
-							<ColorModeToggle />
-
-							<HandSignDictionary />
-						</ButtonGroup>
-					</Flex>
-
-					<Stack
-						zIndex={10}
-						pos='fixed'
-						bottom={8}
-						spacing={4}
-						direction='row'
-						align='center'
+				<Flex w='100vw' pos='fixed' top={4} zIndex={10}>
+					<Button
+						ml={4}
+						leftIcon={
+							camIsOn === 'on' ? (
+								<ViewIcon size={20} />
+							) : (
+								<ViewOffIcon size={20} />
+							)
+						}
+						onClick={handleWebcam}
+						colorScheme='pink'
 					>
-						<Button colorScheme='red' onClick={handleRemoveWord}>
-							Remove Word
-						</Button>
+						Camera
+					</Button>
 
-						<TextToSpeech text={text} />
-					</Stack>
-				</Container>
-			</Box>
+					<Spacer />
+
+					<ButtonGroup mr={4} spacing={4}>
+						<ColorModeToggle />
+
+						<HandSignDictionary />
+					</ButtonGroup>
+				</Flex>
+
+				<Stack
+					zIndex={10}
+					pos='fixed'
+					bottom={8}
+					spacing={4}
+					direction='row'
+					align='center'
+				>
+					<Button colorScheme='red' onClick={handleRemoveWord}>
+						Remove Word
+					</Button>
+
+					<TextToSpeech text={text} />
+				</Stack>
+			</Container>
 		</>
 	)
 }
