@@ -34,7 +34,7 @@ function HandSignDictionary() {
 							<Heading>Hand Sign Dictionary</Heading>
 						</Center>
 					</ModalHeader>
-					<ModalCloseButton />
+					<ModalCloseButton size='xl' />
 					<ModalBody>
 						<SimpleGrid columns={8} spacing='20px'>
 							{SignPass.map((s) => (

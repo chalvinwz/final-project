@@ -6,12 +6,8 @@ export default function ColorModeToggle(props) {
 
 	return (
 		<Button
-			aria-label='Toggle Color Mode'
 			colorScheme='purple'
-			pos='fixed'
-			right='20px'
-			mt='20px'
-			zIndex={9}
+			aria-label='Toggle Color Mode'
 			onClick={toggleColorMode}
 			_focus={{ boxShadow: 'none' }}
 			w='fit-content'

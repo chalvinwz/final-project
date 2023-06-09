@@ -94,6 +94,7 @@ const useDetect = () => {
 					Handsigns.xSign,
 					Handsigns.ySign,
 					Handsigns.zSign,
+					Handsigns.spaceSign,
 				])
 
 				const estimatedGestures = await GE.estimate(

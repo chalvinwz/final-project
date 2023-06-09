@@ -14,12 +14,15 @@ import {
 	Box,
 	Spinner,
 	AbsoluteCenter,
+	Flex,
+	ButtonGroup,
+	Spacer,
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import TextToSpeech from '@/components/TextToSpeech'
 
 export default function Home() {
-	const [camState, setCamState] = useState('on')
+	const [camIsOn, setCamIsOn] = useState('on')
 
 	const [
 		text,
@@ -32,10 +35,10 @@ export default function Home() {
 	] = useDetect()
 
 	function handleWebcam() {
-		if (camState === 'on') {
-			setCamState('off')
+		if (camIsOn === 'on') {
+			setCamIsOn('off')
 		} else {
-			setCamState('on')
+			setCamIsOn('on')
 		}
 	}
 
@@ -65,12 +68,15 @@ export default function Home() {
 			<Head>
 				<title>Hand Sign Translation App</title>
 			</Head>
+
 			<Box>
-				<Container centerContent maxW='xl' height='100vh' pt='0' pb='0'>
-					{camState === 'on' ? (
-						<Webcam className='webcam' ref={webcamRef} />
-					) : (
-						<Box></Box>
+				<Container centerContent height='100vh' pt='0' pb='0'>
+					{camIsOn === 'on' && (
+						<>
+							<Webcam className='webcam' ref={webcamRef} />
+
+							<canvas className='canvas' ref={canvasRef} />
+						</>
 					)}
 
 					{modelIsLoaded && (
@@ -79,7 +85,7 @@ export default function Home() {
 						</Heading>
 					)}
 
-					{textArray.length !== 0 && (
+					{textArray.length !== 0 ? (
 						<>
 							<Heading as='h1' size='2xl' zIndex={10}>
 								{textArray.length}
@@ -88,27 +94,17 @@ export default function Home() {
 								{text}
 							</Heading>
 						</>
+					) : (
+						<Heading as='h1' size='2xl' zIndex={10}>
+							0
+						</Heading>
 					)}
 
-					<canvas className='canvas' ref={canvasRef} />
-
-					<ColorModeToggle />
-
-					<Stack
-						zIndex={10}
-						pos='fixed'
-						bottom='30px'
-						spacing={4}
-						direction='row'
-						align='center'
-					>
-						<Button colorScheme='red' onClick={handleRemoveWord}>
-							Remove Word
-						</Button>
-
+					<Flex w='100vw' pos='fixed' top={4} zIndex={10}>
 						<Button
+							ml={4}
 							leftIcon={
-								camState === 'on' ? (
+								camIsOn === 'on' ? (
 									<ViewIcon size={20} />
 								) : (
 									<ViewOffIcon size={20} />
@@ -120,9 +116,28 @@ export default function Home() {
 							Camera
 						</Button>
 
-						<TextToSpeech text={text} />
+						<Spacer />
 
-						<HandSignDictionary />
+						<ButtonGroup mr={4} spacing={4}>
+							<ColorModeToggle />
+
+							<HandSignDictionary />
+						</ButtonGroup>
+					</Flex>
+
+					<Stack
+						zIndex={10}
+						pos='fixed'
+						bottom={8}
+						spacing={4}
+						direction='row'
+						align='center'
+					>
+						<Button colorScheme='red' onClick={handleRemoveWord}>
+							Remove Word
+						</Button>
+
+						<TextToSpeech text={text} />
 					</Stack>
 				</Container>
 			</Box>

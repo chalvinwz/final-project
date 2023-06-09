@@ -1,16 +1,59 @@
-import { Button } from '@chakra-ui/react'
-import React from 'react'
+import { Button, Select } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 
 const TextToSpeech = ({ text }) => {
-	function handleClick() {
-		const value = new SpeechSynthesisUtterance(text)
-		window.speechSynthesis.speak(value)
+	const [utterance, setUtterance] = useState(null)
+	const [voice, setVoice] = useState(null)
+
+	useEffect(() => {
+		const u = new SpeechSynthesisUtterance(text)
+
+		setUtterance(u)
+	}, [text])
+
+	useEffect(() => {
+		const synth = window.speechSynthesis
+		const voice = synth.getVoices()
+
+		setVoice(voice[0])
+
+		return () => {
+			synth.cancel()
+		}
+	}, [])
+
+	function handleTextToSpeech() {
+		const synth = window.speechSynthesis
+		utterance.voice = voice
+
+		synth.speak(utterance)
+	}
+
+	function handleVoiceChange(event) {
+		const voices = window.speechSynthesis.getVoices()
+		setVoice(voices.find((v) => v.name === event.target.value))
 	}
 
 	return (
-		<Button colorScheme='blue' onClick={handleClick}>
-			Text to Speech
-		</Button>
+		<>
+			<Select
+				placeholder='Select option'
+				value={voice?.name}
+				onChange={handleVoiceChange}
+				w='xs'
+				variant='filled'
+			>
+				{window.speechSynthesis.getVoices().map((voice) => (
+					<option key={voice.name} value={voice.name}>
+						{voice.name}
+					</option>
+				))}
+			</Select>
+
+			<Button colorScheme='blue' onClick={handleTextToSpeech}>
+				Text to Speech
+			</Button>
+		</>
 	)
 }
 
