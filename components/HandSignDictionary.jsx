@@ -17,12 +17,12 @@ import {
 
 import { SignImage, SignPass } from '@/public/handimage'
 
-function HandSignImage() {
+function HandSignDictionary() {
 	const { isOpen, onOpen, onClose, onToggle } = useDisclosure()
 
 	return (
 		<>
-			<Button colorScheme='orange' onClick={() => onOpen()}>
+			<Button colorScheme='yellow' onClick={() => onOpen()}>
 				Dictionary
 			</Button>
 
@@ -31,7 +31,7 @@ function HandSignImage() {
 				<ModalContent>
 					<ModalHeader>
 						<Center>
-							<Heading>Hand Sign Lists</Heading>
+							<Heading>Hand Sign Dictionary</Heading>
 						</Center>
 					</ModalHeader>
 					<ModalCloseButton />
@@ -51,4 +51,4 @@ function HandSignImage() {
 	)
 }
 
-export default HandSignImage
+export default HandSignDictionary

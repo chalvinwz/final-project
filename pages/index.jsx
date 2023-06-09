@@ -4,10 +4,11 @@ import Head from 'next/head'
 import Webcam from 'react-webcam'
 
 import ColorModeToggle from '@/components/ColorModeToggle'
-import HandSignImage from '@/components/HandSignImage'
+import HandSignDictionary from '@/components/HandSignDictionary'
 
 import { Heading, Button, Stack, Container, Box } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import TextToSpeech from '@/components/TextToSpeech'
 
 export default function Home() {
 	const [camState, setCamState] = useState('on')
@@ -40,7 +41,7 @@ export default function Home() {
 			<Head>
 				<title>Hand Sign Translation App</title>
 			</Head>
-			<Box>
+			<Box bgColor='#000'>
 				<Container centerContent maxW='xl' height='100vh' pt='0' pb='0'>
 					{camState === 'on' ? (
 						<Webcam className='webcam' ref={webcamRef} />
@@ -97,7 +98,9 @@ export default function Home() {
 							Camera
 						</Button>
 
-						<HandSignImage />
+						<TextToSpeech text={text} />
+
+						<HandSignDictionary />
 					</Stack>
 				</Container>
 			</Box>
