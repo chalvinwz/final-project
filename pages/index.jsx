@@ -11,9 +11,6 @@ import {
 	Button,
 	Stack,
 	Container,
-	Box,
-	Spinner,
-	AbsoluteCenter,
 	Flex,
 	ButtonGroup,
 	Spacer,
@@ -21,9 +18,10 @@ import {
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import TextToSpeech from '@/components/TextToSpeech'
+import Loading from '@/components/Loading'
 
 export default function Home() {
-	const [camIsOn, setCamIsOn] = useState('on')
+	const [camIsOn, setCamIsOn] = useState(true)
 
 	const [
 		text,
@@ -36,10 +34,10 @@ export default function Home() {
 	] = useDetect()
 
 	function handleWebcam() {
-		if (camIsOn === 'on') {
-			setCamIsOn('off')
+		if (camIsOn) {
+			setCamIsOn(false)
 		} else {
-			setCamIsOn('on')
+			setCamIsOn(true)
 		}
 	}
 
@@ -49,19 +47,7 @@ export default function Home() {
 	}
 
 	if (!modelIsLoaded) {
-		return (
-			<Box w='100vw' h='100vh'>
-				<AbsoluteCenter>
-					<Spinner
-						size='xl'
-						thickness='4px'
-						speed='0.65s'
-						emptyColor='gray.200'
-						color='blue.500'
-					/>
-				</AbsoluteCenter>
-			</Box>
-		)
+		return <Loading />
 	}
 
 	return (
@@ -71,7 +57,28 @@ export default function Home() {
 			</Head>
 
 			<Container centerContent h='100vh' w='100vw'>
-				{camIsOn === 'on' && (
+				<Flex w='100vw' pos='fixed' top={4} zIndex={10}>
+					<Button
+						ml={4}
+						leftIcon={
+							camIsOn ? <ViewIcon size={20} /> : <ViewOffIcon size={20} />
+						}
+						onClick={handleWebcam}
+						colorScheme='pink'
+					>
+						Camera
+					</Button>
+
+					<Spacer />
+
+					<ButtonGroup mr={4} spacing={4}>
+						<ColorModeToggle />
+
+						<HandSignDictionary />
+					</ButtonGroup>
+				</Flex>
+
+				{camIsOn && (
 					<>
 						<Webcam className='webcam' ref={webcamRef} />
 
@@ -80,7 +87,7 @@ export default function Home() {
 				)}
 
 				{modelIsLoaded && (
-					<Center zIndex={10} w='100vw'>
+					<Center zIndex={9} w='100vw'>
 						<Heading as='h1' size='xl'>
 							Keep your hand in screen until 10
 						</Heading>
@@ -101,31 +108,6 @@ export default function Home() {
 						0
 					</Heading>
 				)}
-
-				<Flex w='100vw' pos='fixed' top={4} zIndex={10}>
-					<Button
-						ml={4}
-						leftIcon={
-							camIsOn === 'on' ? (
-								<ViewIcon size={20} />
-							) : (
-								<ViewOffIcon size={20} />
-							)
-						}
-						onClick={handleWebcam}
-						colorScheme='pink'
-					>
-						Camera
-					</Button>
-
-					<Spacer />
-
-					<ButtonGroup mr={4} spacing={4}>
-						<ColorModeToggle />
-
-						<HandSignDictionary />
-					</ButtonGroup>
-				</Flex>
 
 				<Stack
 					zIndex={10}

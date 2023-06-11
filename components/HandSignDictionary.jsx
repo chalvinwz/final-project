@@ -8,7 +8,6 @@ import {
 	ModalCloseButton,
 	useDisclosure,
 	Button,
-	Text,
 	Image,
 	SimpleGrid,
 	Center,
@@ -28,13 +27,16 @@ function HandSignDictionary() {
 
 			<Modal onClose={onClose} size='full' isOpen={isOpen}>
 				<ModalOverlay />
+
 				<ModalContent>
 					<ModalHeader>
 						<Center>
 							<Heading>Hand Sign Dictionary</Heading>
 						</Center>
 					</ModalHeader>
+
 					<ModalCloseButton size='xl' />
+
 					<ModalBody>
 						<SimpleGrid columns={8} spacing='20px'>
 							{SignPass.map((s) => (
@@ -42,6 +44,7 @@ function HandSignDictionary() {
 							))}
 						</SimpleGrid>
 					</ModalBody>
+
 					<ModalFooter>
 						<Button onClick={onClose}>Close</Button>
 					</ModalFooter>
