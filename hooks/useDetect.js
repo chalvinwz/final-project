@@ -39,7 +39,14 @@ const useDetect = () => {
 		const frequentText = getFrequentText(textArray)
 
 		setTextArray([])
-		setText((text) => text + frequentText)
+
+		if (text === '') {
+			setText((prevText) => prevText + frequentText.toUpperCase())
+		} else if (text.slice(-2) === '. ') {
+			setText((prevText) => prevText + frequentText.toUpperCase())
+		} else {
+			setText((prevText) => prevText + frequentText)
+		}
 	}
 
 	async function detect(net) {
@@ -94,6 +101,8 @@ const useDetect = () => {
 					Handsigns.xSign,
 					Handsigns.ySign,
 					Handsigns.zSign,
+					Handsigns.commaSign,
+					Handsigns.dotSign,
 					Handsigns.spaceSign,
 				])
 

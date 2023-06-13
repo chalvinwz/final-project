@@ -15,6 +15,9 @@ import {
 	ButtonGroup,
 	Spacer,
 	Center,
+	Text,
+	Box,
+	VStack,
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import TextToSpeech from '@/components/TextToSpeech'
@@ -46,6 +49,10 @@ export default function Home() {
 		setText('')
 	}
 
+	function handleRemoveLastLetter() {
+		setText((prevText) => prevText.slice(0, -1))
+	}
+
 	if (!modelIsLoaded) {
 		return <Loading />
 	}
@@ -57,7 +64,14 @@ export default function Home() {
 			</Head>
 
 			<Container centerContent h='100vh' w='100vw'>
-				<Flex w='100vw' pos='fixed' top={4} zIndex={10}>
+				{camIsOn && (
+					<>
+						<Webcam className='webcam' ref={webcamRef} />
+
+						<canvas className='canvas' ref={canvasRef} />
+					</>
+				)}
+				<Flex w='100vw' pos='fixed' top={4} zIndex={11}>
 					<Button
 						ml={4}
 						leftIcon={
@@ -78,36 +92,38 @@ export default function Home() {
 					</ButtonGroup>
 				</Flex>
 
-				{camIsOn && (
-					<>
-						<Webcam className='webcam' ref={webcamRef} />
-
-						<canvas className='canvas' ref={canvasRef} />
-					</>
-				)}
-
-				{modelIsLoaded && (
-					<Center zIndex={9} w='100vw'>
+				<Flex
+					flexDir='column'
+					zIndex={10}
+					w='100vw'
+					h='100vh'
+					justify='center'
+					align='center'
+				>
+					<VStack pos='fixed' top={4}>
 						<Heading as='h1' size='xl'>
 							Keep your hand in screen until 10
 						</Heading>
-					</Center>
-				)}
 
-				{textArray.length !== 0 ? (
-					<>
-						<Heading as='h1' size='2xl' zIndex={10}>
-							{textArray.length}
-						</Heading>
-						<Heading as='h1' size='2xl' zIndex={10}>
+						{textArray.length !== 0 ? (
+							<>
+								<Heading as='h1' size='2xl'>
+									{textArray.length}
+								</Heading>
+							</>
+						) : (
+							<Heading as='h1' size='2xl'>
+								0
+							</Heading>
+						)}
+					</VStack>
+
+					<Center pos='fixed' bottom={20} w='70vw'>
+						<Text as='b' fontSize='4xl'>
 							{text}
-						</Heading>
-					</>
-				) : (
-					<Heading as='h1' size='2xl' zIndex={10}>
-						0
-					</Heading>
-				)}
+						</Text>
+					</Center>
+				</Flex>
 
 				<Stack
 					zIndex={10}
@@ -117,6 +133,9 @@ export default function Home() {
 					direction='row'
 					align='center'
 				>
+					<Button colorScheme='red' onClick={handleRemoveLastLetter}>
+						Remove Last Letter
+					</Button>
 					<Button colorScheme='red' onClick={handleRemoveWord}>
 						Remove Word
 					</Button>
