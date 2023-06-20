@@ -60,7 +60,7 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Hand Sign Translation App</title>
+				<title>American Sign Language Alphabet Translation Application</title>
 			</Head>
 
 			<Container centerContent h='100vh' w='100vw'>
@@ -71,6 +71,7 @@ export default function Home() {
 						<canvas className='canvas' ref={canvasRef} />
 					</>
 				)}
+
 				<Flex w='100vw' pos='fixed' top={4} zIndex={11}>
 					<Button
 						ml={4}
@@ -80,7 +81,7 @@ export default function Home() {
 						onClick={handleWebcam}
 						colorScheme='pink'
 					>
-						Camera
+						Webcam
 					</Button>
 
 					<Spacer />
@@ -134,10 +135,10 @@ export default function Home() {
 					align='center'
 				>
 					<Button colorScheme='red' onClick={handleRemoveLastLetter}>
-						Remove Last Letter
+						Delete Last Letter
 					</Button>
 					<Button colorScheme='red' onClick={handleRemoveWord}>
-						Remove Word
+						Delete
 					</Button>
 
 					<TextToSpeech text={text} />
