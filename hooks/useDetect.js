@@ -3,7 +3,7 @@ import * as tf from '@tensorflow/tfjs'
 import * as handpose from '@tensorflow-models/handpose'
 import * as fp from 'fingerpose'
 import { drawHand } from '@/lib/handpose/draw-hand'
-import Handsigns from '@/lib/handpose/handsigns'
+import HandShape from '@/lib/handpose/hand-shape'
 
 const useDetect = () => {
 	const webcamRef = useRef(null)
@@ -17,15 +17,15 @@ const useDetect = () => {
 		setModelIsLoaded(true)
 
 		setInterval(() => {
-			detect(net)
-		}, 200)
+			detectHand(net)
+		}, 500)
 	}
 
 	useEffect(() => {
 		runHandpose()
 	}, [])
 
-	if (textArray.length === 10) {
+	if (textArray.length === 9) {
 		function getFrequentText(arr) {
 			return arr
 				.sort(
@@ -49,67 +49,56 @@ const useDetect = () => {
 		}
 	}
 
-	async function detect(net) {
-		// Check data is available
+	async function detectHand(net) {
 		if (
 			typeof webcamRef.current !== 'undefined' &&
 			webcamRef.current !== null &&
 			webcamRef.current.video.readyState === 4
 		) {
-			// Get Video Properties
 			const video = webcamRef.current.video
 			const videoWidth = webcamRef.current.video.videoWidth
 			const videoHeight = webcamRef.current.video.videoHeight
 
-			// Set video width
 			webcamRef.current.video.width = videoWidth
 			webcamRef.current.video.height = videoHeight
 
-			// Set canvas height and width
 			canvasRef.current.width = videoWidth
 			canvasRef.current.height = videoHeight
 
-			// Make Detections
 			const hand = await net.estimateHands(video)
 
 			if (hand.length > 0) {
-				//loading the fingerpose model
 				const GE = new fp.GestureEstimator([
-					Handsigns.aSign,
-					Handsigns.bSign,
-					Handsigns.cSign,
-					Handsigns.dSign,
-					Handsigns.eSign,
-					Handsigns.fSign,
-					Handsigns.gSign,
-					Handsigns.hSign,
-					Handsigns.iSign,
-					Handsigns.jSign,
-					Handsigns.kSign,
-					Handsigns.lSign,
-					Handsigns.mSign,
-					Handsigns.nSign,
-					Handsigns.oSign,
-					Handsigns.pSign,
-					Handsigns.qSign,
-					Handsigns.rSign,
-					Handsigns.sSign,
-					Handsigns.tSign,
-					Handsigns.uSign,
-					Handsigns.vSign,
-					Handsigns.wSign,
-					Handsigns.xSign,
-					Handsigns.ySign,
-					Handsigns.zSign,
-					Handsigns.commaSign,
-					Handsigns.dotSign,
-					Handsigns.spaceSign,
+					HandShape.aSign,
+					HandShape.bSign,
+					HandShape.cSign,
+					HandShape.dSign,
+					HandShape.eSign,
+					HandShape.fSign,
+					HandShape.gSign,
+					HandShape.hSign,
+					HandShape.iSign,
+					HandShape.kSign,
+					HandShape.lSign,
+					HandShape.mSign,
+					HandShape.nSign,
+					HandShape.oSign,
+					HandShape.pSign,
+					HandShape.qSign,
+					HandShape.rSign,
+					HandShape.sSign,
+					HandShape.tSign,
+					HandShape.uSign,
+					HandShape.vSign,
+					HandShape.wSign,
+					HandShape.xSign,
+					HandShape.ySign,
+					HandShape.commaSign,
+					HandShape.dotSign,
+					HandShape.spaceSign,
 				])
 
-				const estimatedGestures = await GE.estimate(
-					hand[0].landmarks,
-					8.666666666666668
-				)
+				const estimatedGestures = await GE.estimate(hand[0].landmarks, 5)
 
 				if (
 					estimatedGestures.gestures !== null &&
@@ -126,7 +115,6 @@ const useDetect = () => {
 				}
 			}
 
-			// Draw Mesh
 			const ctx = canvasRef.current.getContext('2d')
 			drawHand(hand, ctx)
 		}

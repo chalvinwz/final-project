@@ -3,25 +3,24 @@ import useDetect from '@/hooks/useDetect'
 import Head from 'next/head'
 import Webcam from 'react-webcam'
 
-import ColorModeToggle from '@/components/ColorModeToggle'
-import HandSignDictionary from '@/components/HandSignDictionary'
-
 import {
 	Heading,
 	Button,
 	Stack,
 	Container,
 	Flex,
-	ButtonGroup,
 	Spacer,
 	Center,
 	Text,
 	Box,
 	VStack,
+	LightMode,
 } from '@chakra-ui/react'
+
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import TextToSpeech from '@/components/TextToSpeech'
 import Loading from '@/components/Loading'
+import HandShapeDictionary from '@/components/HandShapeDictionary'
 
 export default function Home() {
 	const [camIsOn, setCamIsOn] = useState(true)
@@ -44,12 +43,13 @@ export default function Home() {
 		}
 	}
 
-	function handleRemoveWord() {
+	function handleDelete() {
 		setTextArray([])
 		setText('')
 	}
 
-	function handleRemoveLastLetter() {
+	function handleDeleteLastLetter() {
+		setTextArray([])
 		setText((prevText) => prevText.slice(0, -1))
 	}
 
@@ -86,11 +86,7 @@ export default function Home() {
 
 					<Spacer />
 
-					<ButtonGroup mr={4} spacing={4}>
-						<ColorModeToggle />
-
-						<HandSignDictionary />
-					</ButtonGroup>
+					<HandShapeDictionary />
 				</Flex>
 
 				<Flex
@@ -103,7 +99,7 @@ export default function Home() {
 				>
 					<VStack pos='fixed' top={4}>
 						<Heading as='h1' size='xl'>
-							Keep your hand in screen until 10
+							Keep hand steady in screen up to the count of 9
 						</Heading>
 
 						{textArray.length !== 0 ? (
@@ -126,23 +122,25 @@ export default function Home() {
 					</Center>
 				</Flex>
 
-				<Stack
-					zIndex={10}
-					pos='fixed'
-					bottom={8}
-					spacing={4}
-					direction='row'
-					align='center'
-				>
-					<Button colorScheme='red' onClick={handleRemoveLastLetter}>
-						Delete Last Letter
-					</Button>
-					<Button colorScheme='red' onClick={handleRemoveWord}>
-						Delete
-					</Button>
+				<LightMode>
+					<Stack
+						zIndex={10}
+						pos='fixed'
+						bottom={8}
+						spacing={4}
+						direction='row'
+						align='center'
+					>
+						<Button colorScheme='red' onClick={handleDeleteLastLetter}>
+							Delete Last Letter
+						</Button>
+						<Button colorScheme='red' onClick={handleDelete}>
+							Delete
+						</Button>
 
-					<TextToSpeech text={text} />
-				</Stack>
+						<TextToSpeech text={text} />
+					</Stack>
+				</LightMode>
 			</Container>
 		</>
 	)
