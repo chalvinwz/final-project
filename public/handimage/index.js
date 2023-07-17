@@ -36,10 +36,6 @@ export const signImage = [
 		alt: 'I',
 	},
 	{
-		src: '/handimage/J_hand.svg',
-		alt: 'J',
-	},
-	{
 		src: '/handimage/K_hand.svg',
 		alt: 'K',
 	},
@@ -98,9 +94,5 @@ export const signImage = [
 	{
 		src: '/handimage/Y_hand.svg',
 		alt: 'Y',
-	},
-	{
-		src: '/handimage/Z_hand.svg',
-		alt: 'Z',
 	},
 ]

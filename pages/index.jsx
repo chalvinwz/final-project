@@ -99,7 +99,7 @@ export default function Home() {
 				>
 					<VStack pos='fixed' top={4}>
 						<Heading as='h1' size='xl'>
-							Keep hand steady in screen up to the count of 9
+							Keep your hand steady on the webcam to the count of 9
 						</Heading>
 
 						{textArray.length !== 0 ? (
@@ -122,25 +122,23 @@ export default function Home() {
 					</Center>
 				</Flex>
 
-				<LightMode>
-					<Stack
-						zIndex={10}
-						pos='fixed'
-						bottom={8}
-						spacing={4}
-						direction='row'
-						align='center'
-					>
-						<Button colorScheme='red' onClick={handleDeleteLastLetter}>
-							Delete Last Letter
-						</Button>
-						<Button colorScheme='red' onClick={handleDelete}>
-							Delete
-						</Button>
+				<Stack
+					zIndex={10}
+					pos='fixed'
+					bottom={8}
+					spacing={4}
+					direction='row'
+					align='center'
+				>
+					<Button colorScheme='red' onClick={handleDeleteLastLetter}>
+						Delete Last Letter
+					</Button>
+					<Button colorScheme='red' onClick={handleDelete}>
+						Delete
+					</Button>
 
-						<TextToSpeech text={text} />
-					</Stack>
-				</LightMode>
+					<TextToSpeech text={text} />
+				</Stack>
 			</Container>
 		</>
 	)

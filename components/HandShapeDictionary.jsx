@@ -38,11 +38,18 @@ function HandSignDictionary() {
 					<ModalCloseButton size='xl' />
 
 					<ModalBody>
-						<SimpleGrid columns={8} spacing='20px'>
-							{signImage.map((s) => (
-								<Image key={s.alt} objectFit='cover' src={s.src} alt={s.alt} />
-							))}
-						</SimpleGrid>
+						<Center>
+							<SimpleGrid columns={6} spacing={16}>
+								{signImage.map((s) => (
+									<Image
+										key={s.alt}
+										objectFit='cover'
+										src={s.src}
+										alt={s.alt}
+									/>
+								))}
+							</SimpleGrid>
+						</Center>
 					</ModalBody>
 
 					<ModalFooter>
